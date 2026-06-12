@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon-like Navbar</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <!-- Logo Section -->
+        <div class="nav-logo border-hover">
+            <a href="#" class="logo-text">shop<span>zone</span></a>
+        </div>
+
+        <!-- More Dropdown -->
+        <div class="nav-dropdown border-hover">
+            <span class="nav-line-1">Explore</span>
+            <span class="nav-line-2">More <i class="fas fa-caret-down"></i></span>
+            <!-- Dropdown Menu Content -->
+            <div class="dropdown-content">
+                <a href="#">Today's Deals</a>
+                <a href="#">Customer Service</a>
+                <a href="#">Registry</a>
+                <a href="#">Gift Cards</a>
+            </div>
+        </div>
+
+        <!-- Search Box Section -->
+        <div class="nav-search">
+            <select class="search-select">
+                <option>All</option>
+                <option>Electronics</option>
+                <option>Fashion</option>
+                <option>Home</option>
+                <option>Books</option>
+            </select>
+            <input type="text" placeholder="Search Shopzone" class="search-input">
+            <button class="search-icon">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+
+        <!-- Sign In Section -->
+        <div class="nav-signin border-hover">
+            <span class="nav-line-1">Hello, sign in</span>
+            <span class="nav-line-2">Account & Lists <i class="fas fa-caret-down"></i></span>
+        </div>
+
+        <!-- Cart Button Section -->
+        <div class="nav-cart border-hover">
+            <div class="cart-icon-container">
+                <span class="cart-count">0</span>
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <span class="nav-line-2 cart-text">Cart</span>
+        </div>
+    </nav>
+
+</body>
+</html>

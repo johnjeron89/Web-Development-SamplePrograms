@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Website Navbar</title>
+    <!-- Font Awesome for Dropdown & Mobile Menu Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>/* ==========================================================================
+   Reset & Base Standards
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+
+:root {
+    --primary-bg: #11161e;       /* Deep Rathinam Slate Black */
+    --accent-orange: #ff6a00;    /* Premium Vivid Institutional Orange */
+    --text-light: #ffffff;
+    --text-muted: #cccccc;
+    --dropdown-bg: #1a222f;      /* Lighter Slate for Sub-menus */
+    --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body {
+    background-color: #f4f6f9;
+}
+
+/* ==========================================================================
+   Top Header Info Utility Bar
+   ========================================================================== */
+.header-container {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.top-bar {
+    background-color: #0b0e14;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 4%;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.top-info span {
+    margin-right: 20px;
+}
+
+.top-info i {
+    color: var(--accent-orange);
+    margin-right: 5px;
+}
+
+.top-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-left: 15px;
+    transition: var(--transition-smooth);
+}
+
+.top-links a:hover {
+    color: var(--text-light);
+}
+
+/* ==========================================================================
+   Main Navbar Flexbox Layout
+   ========================================================================== */
+.navbar {
+    background-color: var(--primary-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4%;
+    height: 75px;
+}
+
+/* Logo Framework */
+.nav-logo .logo-text {
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.nav-logo .logo-text span {
+    color: var(--accent-orange);
+    font-weight: 400;
+}
+
+/* Navigation Links Container */
+.nav-links {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    height: 100%;
+}
+
+.nav-links li {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+/* Interactive Navigation Item Target Hover Effects */
+.nav-item {
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 0 18px;
+    font-size: 15px;
+    font-weight: 500;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    transition: var(--transition-smooth);
+}
+
+.nav-item i {
+    font-size: 11px;
+    margin-left: 6px;
+    transition: var(--transition-smooth);
+}
+
+/* Bottom line hover sliding effect animation */
+.nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background-color: var(--accent-orange);
+    transition: var(--transition-smooth);
+    transform: translateX(-50%);
+}
+
+.nav-item:hover::after,
+.nav-item.active::after {
+    width: 100%;
+}
+
+.nav-item:hover {
+    color: var(--accent-orange);
+}
+
+/* Rotates drop indicator icon on interaction */
+.dropdown:hover .drop-arrow {
+    transform: rotate(180deg);
+}
+
+/* ==========================================================================
+   Courses Dropdown Structural Submenu
+   ========================================================================== */
+.dropdown-menu {
+    position: absolute;
+    top: 75px;
+    left: 0;
+    background-color: var(--dropdown-bg);
+    min-width: 260px;
+    list-style: none;
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: all 0.25s cubic-bezier(0.3, 0, 0.2, 1);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    border-radius: 0 0 6px 6px;
+    border-top: 3px solid var(--accent-orange);
+}
+
+.dropdown-menu li {
+    width: 100%;
+    height: auto;
+}
+
+.dropdown-menu a {
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 14px 20px;
+    display: block;
+    width: 100%;
+    font-size: 14px;
+    transition: var(--transition-smooth);
+}
+
+.dropdown-menu a:hover {
+    background-color: rgba(255, 106, 0, 0.1);
+    color: var(--text-light);
+    padding-left: 26px; /* Subtle directional indentation effect */
+}
+
+/* Trigger Submenu display on Desktop Hover */
+.dropdown:hover .dropdown-menu {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   Action CTA Application Button
+   ========================================================================== */
+.cta-container {
+    padding-left: 15px;
+}
+
+.cta-btn {
+    background-color: var(--accent-orange);
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 10px 22px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: var(--transition-smooth);
+    border: 1px solid transparent;
+}
+
+.cta-btn:hover {
+    background-color: transparent;
+    border-color: var(--accent-orange);
+    color: var(--accent-orange);
+    box-shadow: 0 0 15px rgba(255, 106, 0, 0.4);
+}
+
+/* ==========================================================================
+   Mobile Responsive Architecture Setup Controls
+   ========================================================================== */
+.menu-checkbox {
+    display: none; /* Keep element hidden, state tracks purely through logic CSS */
+}
+
+.menu-icon-label {
+    display: none;
+    color: var(--text-light);
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.menu-icon-label .menu-close {
+    display: none;
+}
+
+/* ==========================================================================
+   Media Queries Rules Interface (Breakpoints for Mobile/Tablet)
+   ========================================================================== */
+@media (max-width: 992px) {
+    .top-bar {
+        display: none; /* Clear secondary utilities to scale back mobile bloat */
+    }
+
+    .menu-icon-label {
+        display: block; /* Activate mobile interface hamburger icon overlay switch */
+    }
+
+    /* Transform navigation flex strip horizontally into vertical dropdown layer drawer */
+    .nav-links {
+        position: absolute;
+        top: 75px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 75px);
+        background-color: var(--primary-bg);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px 0;
+        overflow-y: auto;
+        
+        /* Drawer animation state setup variables */
+        visibility: hidden;
+        opacity: 0;
+        transform: scaleY(0.95);
+        transform-origin: top;
+        transition: var(--transition-smooth);
+    }
+
+    .nav-links li {
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav-item {
+        width: 100%;
+        padding: 16px 6%;
+        font-size: 17px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .nav-item::after {
+        display: none; /* Clean linear visual indicators off global view */
+    }
+
+    /* Track changes utilizing native checked transitions without scripts */
+    #menu-toggle:checked ~ .nav-links {
+        visibility: visible;
+        opacity: 1;
+        transform: scaleY(1);
+    }
+
+    #menu-toggle:checked ~ .menu-icon-label .menu-open {
+        display: none;
+    }
+
+    #menu-toggle:checked ~ .menu-icon-label .menu-close {
+        display: block;
+    }
+
+    /* Reposition mobile nested links settings adjustments layout */
+    .dropdown {
+        width: 100%;
+    }
+
+    .dropdown-menu {
+        position: relative;
+        top: 0;
+        width: 100%;
+        background-color: #0d121a;
+        box-shadow: none;
+        border-top: none;
+        border-left: 3px solid var(--accent-orange);
+        display: none; /* Collapse inside mobile menu flow natively unless target context expands */
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Native dynamic click or slide drop handling mechanics configuration for fluid interaction panels */
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-menu a {
+        padding: 12px 10%;
+    }
+
+    .cta-container {
+        width: 100%;
+        padding: 25px 6% 10px 6%;
+    }
+
+    .cta-btn {
+        display: block;
+        text-align: center;
+        width: 100%;
+        padding: 14px 0;
+    }
+}</style>
+</head>
+<body>
+
+    <header class="header-container">
+        <!-- Top Info Bar (Inspired by Rathinam's portal) -->
+        <div class="top-bar">
+            <div class="top-info">
+                <span><i class="fas fa-phone"></i> +91 844 844 8909</span>
+                <span><i class="fas fa-envelope"></i> admission@rathinam.in</span>
+            </div>
+            <div class="top-links">
+                <a href="#">NIRF</a>
+                <a href="#">NAAC A++</a>
+                <a href="#">Alumni</a>
+            </div>
+        </div>
+
+        <!-- Main Navigation Bar -->
+        <nav class="navbar">
+            <!-- Brand Logo -->
+            <div class="nav-logo">
+                <a href="#" class="logo-text">RATHINAM<span>COLLEGE</span></a>
+            </div>
+
+            <!-- Mobile Menu Toggle Button -->
+            <input type="checkbox" id="menu-toggle" class="menu-checkbox">
+            <label for="menu-toggle" class="menu-icon-label">
+                <i class="fas fa-bars menu-open"></i>
+                <i class="fas fa-times menu-close"></i>
+            </label>
+
+            <!-- Navigation Links -->
+            <ul class="nav-links">
+                <li><a href="#" class="nav-item active">Home</a></li>
+                
+                <!-- Mega Dropdown Link for Courses -->
+                <li class="dropdown">
+                    <a href="#" class="nav-item">Courses <i class="fas fa-chevron-down drop-arrow"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Arts & Science</a></li>
+                        <li><a href="#">Engineering & Tech</a></li>
+                        <li><a href="#">Management (MBA/MCA)</a></li>
+                        <li><a href="#">Emerging Tech (GenAI & Data Science)</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="#" class="nav-item">Faculty</a></li>
+                <li><a href="#" class="nav-item">Placements</a></li>
+                <li><a href="#" class="nav-item">Contact</a></li>
+                
+                <!-- Campus Urgent CTA Action Button -->
+                <li class="cta-container">
+                    <a href="#" class="cta-btn">Apply Now 2026</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+</body>
+</html>
+
