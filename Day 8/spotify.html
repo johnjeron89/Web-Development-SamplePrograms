@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Stream - Split Focus</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --bg-base: #06060a;
+            --bg-panel: #0f0f18;
+            --bg-card: #171724;
+            --bg-card-hover: #222235;
+            --text-main: #ffffff;
+            --text-muted: #8e8eaf;
+            --accent-neon: #00ffcc;
+            --accent-pink: #ff007f;
+            --accent-glow: rgba(0, 255, 204, 0.2);
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        /* --- THE SPLIT FLEX ARCHITECTURE --- */
+        .app-split-container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* PANEL 1: THE ACTIVE IMMERSIVE PLAYER (FIXED-SCALE INVENTIVE SIDE) */
+        .theater-panel {
+            flex: 0 0 380px; /* Fixed robust width for the playback engine */
+            background-color: var(--bg-panel);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Pins logo to top, arts center, controls bottom */
+            padding: 32px;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+            z-index: 5;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--accent-neon);
+            text-shadow: 0 0 10px var(--accent-glow);
+            letter-spacing: 2px;
+        }
+
+        .now-playing-hero {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .giant-artwork {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 16px;
+            background: linear-gradient(45deg, var(--accent-pink), #7928ca, var(--accent-neon));
+            position: relative;
+            box-shadow: 0 15px 35px rgba(255, 0, 127, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-track-info {
+            text-align: center;
+            width: 100%;
+        }
+
+        .hero-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .hero-artist {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* THEATER CONTROLS */
+        .theater-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .action-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .btn-circle-play {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-neon), #00b3ff);
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--accent-glow);
+            transition: transform 0.2s;
+        }
+
+        .btn-circle-play:hover {
+            transform: scale(1.05);
+        }
+
+        .linear-timeline {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .line-track {
+            flex: 1;
+            height: 4px;
+            background: #252538;
+            border-radius: 2px;
+        }
+
+        .line-fill {
+            width: 42%;
+            height: 100%;
+            background: var(--accent-neon);
+            box-shadow: 0 0 8px var(--accent-neon);
+        }
+
+        /* PANEL 2: THE STREAM CONTENT (SCROLLING EXPLORER) */
+        .stream-panel {
+            flex: 1;
+            background: linear-gradient(180deg, #09090f 0%, #050508 100%);
+            overflow-y: auto;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 48px;
+        }
+
+        /* COMPACT HIGH-UTILITY NAV HEADER ROW */
+        .dynamic-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            padding-bottom: 20px;
+        }
+
+        .inline-nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-link.active, .nav-link:hover {
+            color: var(--accent-neon);
+            background-color: rgba(0, 255, 204, 0.05);
+        }
+
+        /* COMPACT LIST STRATEGY INSTEAD OF BOX CARDS */
+        .list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .list-row-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: rgba(23, 23, 36, 0.4);
+            border-radius: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .list-row-item:hover {
+            background-color: var(--bg-card-hover);
+            transform: translateX(6px);
+        }
+
+        /* Unique internal distribution inside the list row */
+        .track-index { width: 40px; color: var(--text-muted); font-weight: bold; }
+        .track-meta { flex: 2; display: flex; flex-direction: column; gap: 4px;}
+        .track-album { flex: 1; color: var(--text-muted); font-size: 0.9rem; }
+        .track-duration { width: 60px; text-align: right; color: var(--text-muted); font-size: 0.9rem; }
+
+        .title-txt { font-weight: 600; }
+        .artist-txt { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* MULTI-CARD WRAPPING MIXER (For secondary discoveries) */
+        .compact-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .mini-badge-card {
+            flex: 1 1 calc(33.333% - 16px);
+            min-width: 220px;
+            background: var(--bg-panel);
+            padding: 16px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .badge-thumb {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #00ffcc, #ff007f);
+        }
+
+        .badge-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (max-width: 900px) {
+            .app-split-container {
+                flex-direction: column; /* Stack theater over streams on mobile displays */
+            }
+            .theater-panel {
+                flex: 0 0 auto;
+                width: 100%;
+                gap: 20px;
+            }
+            .giant-artwork {
+                display: none; /* Drop huge hero canvas on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-split-container">
+        
+        <!-- THEATER VIEW PANEL (Left Side System Anchor) -->
+        <aside class="theater-panel">
+            <div class="logo">NEONSTREAM // FOCUS</div>
+            
+            <div class="now-playing-hero">
+                <div class="giant-artwork"></div>
+                <div class="hero-track-info">
+                    <div class="hero-title">Cyber City Lights</div>
+                    <div class="hero-artist">Vektor Field feat. Glitch</div>
+                </div>
+            </div>
+
+            <div class="theater-controls">
+                <div class="linear-timeline">
+                    <span>01:42</span>
+                    <div class="line-track"><div class="line-fill"></div></div>
+                    <span>03:55</span>
+                </div>
+                <div class="action-row">
+                    <span style="cursor:pointer; color:var(--text-muted)">⏮</span>
+                    <div class="btn-circle-play">▶</div>
+                    <span style="cursor:pointer; color:var(--text-muted)">⏭</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- STREAM ENGINE VIEW PANEL (Right Side Exploration Deck) -->
+        <main class="stream-panel">
+            <header class="dynamic-header">
+                <nav class="inline-nav">
+                    <a href="#" class="nav-link active">Discover</a>
+                    <a href="#" class="nav-link">Playlists</a>
+                    <a href="#" class="nav-link">Live Radio</a>
+                </nav>
+                <div style="font-size: 0.9rem; color: var(--accent-neon)">● SYSTEM ONLINE</div>
+            </header>
+
+            <!-- CONTEXT LIST SECTION -->
+            <section>
+                <h3 style="margin-bottom: 24px; letter-spacing: 1px;">Current Hot Rotation</h3>
+                <div class="list-container">
+                    
+                    <div class="list-row-item">
+                        <div class="track-index">01</div>
+                        <div class="track-meta">
+                            <span class="title-txt">Metropolis Flux</span>
+                            <span class="artist-txt">Tokyo Synth Collective</span>
+                        </div>
+                        <div class="track-album">Neon Horizon OST</div>
+                        <div class="track-duration">3:42</div>
+                    </div>
+
+                    <div class="list-row-item">
+                        <div class="track-index">02</div>
+                        <div class="track-meta">
+                            <span class="title-txt">Midnight Run</span>
+                            <span class="artist-txt">Laserhawk</span>
+                        </div>
+                        <div class="track-album">Outrun the Grid</div>
+                        <div class="track-duration">4:11</div>
+                    </div>
+
+                    <div class="list-row-item">
+                        <div class="track-index">03</div>
+                        <div class="track-meta">
+                            <span class="title-txt">Hyperdrive</span>
+                            <span class="artist-txt">Arcade High</span>
+                        </div>
+                        <div class="track-album">Chiptune Anthems</div>
+                        <div class="track-duration">2:58</div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- FLEXBOX WRAPPING CHIP TILES -->
+            <section>
+                <h3 style="margin-bottom: 22px; color: var(--text-muted); font-size: 1rem;">Jump Back In</h3>
+                <div class="compact-grid">
+                    
+                    <div class="mini-badge-card">
+                        <div class="badge-thumb" style="background: linear-gradient(45deg, #ff0055, #7928ca)"></div>
+                        <div class="badge-details">
+                            <span style="font-weight:600; font-size:0.9rem">Synthwave Essentials</span>
+                            <span style="font-size:0.75rem; color:var(--text-muted)">Updated Today</span>
+                        </div>
+                    </div>
+
+                    <div class="mini-badge-card">
+                        <div class="badge-thumb" style="background: linear-gradient(45deg, #00f2fe, #4facfe)"></div>
+                        <div class="badge-details">
+                            <span style="font-weight:600; font-size:0.9rem">Late Night Drive</span>
+                            <span style="font-size:0.75rem; color:var(--text-muted)">Custom Blend</span>
+                        </div>
+                    </div>
+
+                    <div class="mini-badge-card">
+                        <div class="badge-thumb" style="background: linear-gradient(45deg, #f5a623, #f81ce5)"></div>
+                        <div class="badge-details">
+                            <span style="font-weight:600; font-size:0.9rem">Cyberpunk Ambient</span>
+                            <span style="font-size:0.75rem; color:var(--text-muted)">254 Tracks</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+</body>
+</html>
