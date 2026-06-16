@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApexFlow - Streamline Your Workflow</title>
+    <style>
+        /* ==========================================================================
+           1. VARIABLES & BASE STYLES
+           ========================================================================== */
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --transition: all 0.3s ease;
+            --max-width: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-main);
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Generic Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Advanced Selector: :not() pseudo-class to style secondary buttons */
+        .btn:not(.btn-primary) {
+            background-color: transparent;
+            color: var(--dark);
+            border: 2px solid #cbd5e1;
+        }
+
+        /* Hover Effects */
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn:not(.btn-primary):hover {
+            border-color: var(--dark);
+            background-color: rgba(0, 0, 0, 0.02);
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================================================
+           2. NAVBAR (Flexbox & Responsive Toggle Hack)
+           ========================================================================== */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        /* Child Combinator: Directly targets top-level list items */
+        .nav-links > li {
+            position: relative;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-main);
+            transition: var(--transition);
+            padding: 8px 0;
+        }
+
+        /* Advanced Selector: Pseudo-element implementation for smooth animated underline */
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Mobile Nav Toggle System (Checkbox Hack) */
+        .nav-toggle {
+            display: none;
+        }
+
+        .nav-toggle-label {
+            display: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .nav-toggle-label span,
+        .nav-toggle-label span::before,
+        .nav-toggle-label span::after {
+            display: block;
+            background: var(--dark);
+            height: 2px;
+            width: 24px;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-toggle-label span::before,
+        .nav-toggle-label span::after {
+            content: '';
+            position: absolute;
+        }
+
+        .nav-toggle-label span::before { top: -7px; }
+        .nav-toggle-label span::after { bottom: -7px; }
+
+        /* ==========================================================================
+           3. HERO SECTION (Flexbox Layout)
+           ========================================================================== */
+        .hero {
+            padding: 160px 0 100px 0;
+            background: radial-gradient(circle at 90% 10%, rgba(99, 102, 241, 0.05) 0%, transparent 40%);
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 48px;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .hero-content h1 {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.15;
+            color: var(--dark);
+            margin-bottom: 24px;
+        }
+
+        /* Adjacent Sibling Combinator: Customizes typography for the first paragraph directly following an h1 */
+        .hero-content h1 + p {
+            font-size: 20px;
+            color: var(--text-muted);
+            margin-bottom: 36px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .hero-visual {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Complex CSS Illustration simulating an app interface */
+        .mockup-dashboard {
+            width: 100%;
+            max-width: 500px;
+            height: 340px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .mockup-header {
+            display: flex;
+            gap: 6px;
+        }
+        .mockup-header span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+        }
+        /* Advanced Selectors: Coloring mock browser window nodes individually */
+        .mockup-header span:nth-child(1) { background-color: #ef4444; }
+        .mockup-header span:nth-child(2) { background-color: #f59e0b; }
+        .mockup-header span:nth-child(3) { background-color: #10b981; }
+
+        .mockup-body {
+            flex: 1;
+            display: flex;
+            gap: 16px;
+        }
+        .mockup-sidebar {
+            width: 30%;
+            background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%);
+            border-radius: 6px;
+        }
+        .mockup-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .mockup-bar {
+            height: 20px;
+            background-color: #f1f5f9;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .mockup-bar:nth-child(2) { width: 75%; background-color: rgba(99, 102, 241, 0.2); }
+        .mockup-bar:nth-child(3) { width: 90%; }
+        .mockup-bar:nth-child(4) { flex: 1; background-color: #f8fafc; border: 2px dashed #e2e8f0;}
+
+        /* ==========================================================================
+           4. FEATURES SECTION (Flexbox Wrap Grid)
+           ========================================================================== */
+        .features {
+            padding: 100px 0;
+            background-color: white;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 64px auto;
+        }
+
+        .section-header h2 {
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 16px;
+        }
+
+        .features-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+        }
+
+        .feature-card {
+            /* Responsive basic structural fallback inside Flexbox */
+            flex: 1 1 calc(33.333% - 22px);
+            background-color: var(--light);
+            padding: 40px 32px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            transition: var(--transition);
+        }
+
+        /* Advanced Selector: Using :nth-child to create an alternate accent style */
+        .feature-card:nth-child(even) {
+            background-color: #f8fafc;
+            border-top: 4px solid var(--primary);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+            background-color: white;
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background-color: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 24px;
+            font-weight: bold;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+
+        /* Sibling combinator inside features */
+        .feature-card h3 + p {
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        /* ==========================================================================
+           5. FOOTER (Flexbox Layout)
+           ========================================================================== */
+        .footer {
+            background-color: var(--dark);
+            color: #94a3b8;
+            padding: 80px 0 40px 0;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 48px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand {
+            flex: 2 1 300px;
+        }
+
+        .footer-brand .logo {
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            flex: 1 1 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links h4 {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .footer-links a {
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 4px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #334155;
+            padding-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 14px;
+        }
+
+        /* ==========================================================================
+           6. MEDIA QUERIES (Responsiveness Breakpoints)
+           ========================================================================== */
+        
+        /* Tablet & Desktop Layout Shifts */
+        @media (max-width: 1024px) {
+            .hero-content h1 {
+                font-size: 44px;
+            }
+            .feature-card {
+                flex: 1 1 calc(50% - 16px);
+            }
+        }
+
+        /* Mobile Breakpoint (Navbar structural reorganization via pure CSS) */
+        @media (max-width: 768px) {
+            .nav-toggle-label {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                gap: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease-in-out;
+                border-bottom: 0 solid #e2e8f0;
+            }
+
+            .nav-links > li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 20px 0;
+                border-bottom: 1px solid #f1f5f9;
+            }
+
+            .nav-links a::after {
+                display: none;
+            }
+
+            /* General Sibling Combinator Engine (~): Drives UI change based on checkbox state */
+            .nav-toggle:checked ~ .nav-links {
+                max-height: 400px;
+                border-bottom: 1px solid #e2e8f0;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            }
+
+            /* Transform menu bar into an 'X' when open */
+            .nav-toggle:checked ~ .nav-toggle-label span {
+                background: transparent;
+            }
+            .nav-toggle:checked ~ .nav-toggle-label span::before {
+                transform: rotate(45deg);
+                top: 0;
+            }
+            .nav-toggle:checked ~ .nav-toggle-label span::after {
+                transform: rotate(-45deg);
+                bottom: 0;
+            }
+
+            /* Structural resets for Hero layout */
+            .hero-container {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 40px;
+            }
+
+            .hero-actions {
+                justify-content: center;
+            }
+
+            .feature-card {
+                flex: 1 1 100%;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                gap: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR SECTION -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">Apex<span>Flow</span></a>
+            
+            <!-- Pure CSS Toggle State Tracking -->
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <label for="nav-toggle" class="nav-toggle-label">
+                <span></span>
+            </label>
+
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#" class="btn btn-primary" style="color:white; padding: 8px 20px;">Get Started</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1>Scale your business velocity without friction.</h1>
+                <p>ApexFlow coordinates engineering, product management, and operations pipelines natively inside a central dashboard built for clarity.</p>
+                <div class="hero-actions">
+                    <a href="#features" class="btn btn-primary">Deploy Free Now</a>
+                    <a href="#" class="btn">Book a Demo</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <!-- Synthesized UI Dashboard Mockup via CSS properties -->
+                <div class="mockup-dashboard">
+                    <div class="mockup-header">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <div class="mockup-body">
+                        <div class="mockup-sidebar"></div>
+                        <div class="mockup-main">
+                            <div class="mockup-bar"></div>
+                            <div class="mockup-bar"></div>
+                            <div class="mockup-bar"></div>
+                            <div class="mockup-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- FEATURES SECTION -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Engineered for Modern Teams</h2>
+                <p>Break down data siloes with unified infrastructure designed to support distributed delivery structures.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Instant Provisioning</h3>
+                    <p>Spin up fresh pipeline integrations instantly with safe, template-driven automation setups.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>End-to-End Encryption</h3>
+                    <p>Keep telemetry data safe with structural, field-level encryption frameworks baked in by design.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Predictive Analytics</h3>
+                    <p>Identify pipeline blockers early using anomaly detection algorithms before delivery impacts happen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER SECTION -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-brand">
+                    <a href="#" class="logo">Apex<span>Flow</span></a>
+                    <p style="margin-top: 12px; max-width: 320px;">Providing scalable deployment management environments to over 40,000 corporate engineering networks worldwide.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <a href="#">Infrastructures</a>
+                    <a href="#">Security Core</a>
+                    <a href="#">Pricing Strategies</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <a href="#">API Documentation</a>
+                    <a href="#">Whitepapers</a>
+                    <a href="#">System Status</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <a href="#">Career Hub</a>
+                    <a href="#">Press Kit</a>
+                    <a href="#">Contact Support</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ApexFlow Systems Inc. All rights reserved.</p>
+                <p style="display: flex; gap: 24px;">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
