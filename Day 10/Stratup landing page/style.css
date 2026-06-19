@@ -1,0 +1,268 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg-light-deep: #f8fafc;
+  --bg-light-card: rgba(255, 255, 255, 0.75);
+  --bg-light-card-hover: rgba(255, 255, 255, 0.92);
+  --border-color: rgba(15, 23, 42, 0.08);
+  --border-color-hover: rgba(79, 70, 229, 0.3);
+  --primary-indigo: #4f46e5;
+  --primary-violet: #7c3aed;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --gradient-glow: linear-gradient(135deg, var(--primary-indigo) 0%, var(--primary-violet) 100%);
+  --shadow-glow: 0 10px 30px rgba(79, 70, 229, 0.08);
+  --shadow-glow-hover: 0 15px 35px rgba(124, 58, 237, 0.15);
+}
+
+/* Base Styles */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-light-deep);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(79, 70, 229, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(124, 58, 237, 0.03) 0%, transparent 40%);
+  background-attachment: fixed;
+}
+
+h1, h2, h3, h4, h5, h6, .display-large {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-light-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Text Gradients */
+.text-gradient {
+  background: var(--gradient-glow);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glow Cards & Glassmorphism */
+.glass-navbar {
+  background: rgba(248, 250, 252, 0.8) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.glass-card {
+  background: var(--bg-light-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.glass-card:hover {
+  background: var(--bg-light-card-hover);
+  border-color: var(--border-color-hover);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-glow-hover);
+}
+
+/* Glowing Accent Border Card */
+.glow-card-violet:hover {
+  border-color: rgba(124, 58, 237, 0.4);
+  box-shadow: var(--shadow-glow-hover);
+}
+
+/* Buttons */
+.btn-glow {
+  background: var(--gradient-glow);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.2);
+  transition: all 0.3s ease;
+}
+
+.btn-glow:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.35);
+  color: #fff;
+}
+
+.btn-outline-glow {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-glow:hover {
+  border-color: var(--primary-indigo);
+  box-shadow: var(--shadow-glow);
+  color: var(--primary-indigo);
+}
+
+/* Icon Containers */
+.icon-box {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: rgba(79, 70, 229, 0.08);
+  color: var(--primary-indigo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover .icon-box {
+  background: var(--gradient-glow);
+  color: #fff;
+  box-shadow: var(--shadow-glow);
+}
+
+.icon-box-violet {
+  background: rgba(124, 58, 237, 0.08);
+  color: var(--primary-violet);
+}
+
+.glass-card:hover .icon-box-violet {
+  background: var(--gradient-glow);
+  color: #fff;
+  box-shadow: var(--shadow-glow-hover);
+}
+
+/* Team Card Images & Overlays */
+.team-img-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.team-img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  transition: all 0.5s ease;
+}
+
+.team-card:hover .team-img {
+  transform: scale(1.08);
+}
+
+.team-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.5) 60%, transparent 100%);
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.team-card:hover .team-overlay {
+  opacity: 1;
+}
+
+/* Hovering social icons */
+.social-icons-list {
+  list-style: none;
+}
+
+.social-icon-link {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.08);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.social-icon-link:hover {
+  background: var(--primary-indigo);
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Testimonial Star Rating */
+.star-rating {
+  color: #ffc107;
+}
+
+/* Hover effects for regular links */
+.nav-link {
+  color: var(--text-secondary) !important;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--primary-indigo) !important;
+}
+
+.footer-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.footer-link:hover {
+  color: var(--primary-indigo);
+  transform: translateX(4px); /* Tiny micro-interaction */
+}
+
+/* Animated Neon Borders */
+.neon-border-glow {
+  border-bottom: 2px solid transparent;
+  border-image: var(--gradient-glow);
+  border-image-slice: 1;
+}
+
+/* Input Fields Glassmorphism */
+.form-glass {
+  background: rgba(15, 23, 42, 0.02);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary) !important;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.form-glass:focus {
+  background: rgba(15, 23, 42, 0.04);
+  border-color: var(--primary-indigo);
+  box-shadow: 0 0 10px rgba(79, 70, 229, 0.15);
+  outline: none;
+}
+
+.form-glass::placeholder {
+  color: var(--text-muted);
+}
