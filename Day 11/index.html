@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Program Solver - Day 11 Exercises</title>
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon"><i class="fa-solid fa-code"></i></span>
+                    <span class="logo-text">Day 11 <small>JS Exercises</small></span>
+                </div>
+                <button class="mobile-close-btn" id="mobileCloseBtn">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul class="nav-list" id="nav-list">
+                    <!-- Navigation items will be inserted dynamically by JS -->
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <p>Basic Utility Solver</p>
+            </div>
+        </aside>
+
+        <!-- Main Layout Area -->
+        <main class="main-layout">
+            <!-- Header -->
+            <header class="app-header">
+                <div class="header-left">
+                    <button class="hamburger-menu" id="hamburgerMenu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h1 class="header-title" id="mainHeaderTitle">JavaScript Solver</h1>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content-wrapper" id="content-wrapper">
+                <div class="dashboard-grid">
+                    <!-- Left: Interactive Calculator -->
+                    <section class="panel calculator-panel">
+                        <div class="panel-header">
+                            <h2 class="panel-title">
+                                <i class="fa-solid fa-calculator"></i>
+                                <span>Calculator Input</span>
+                            </h2>
+                        </div>
+                        <div class="panel-body">
+                            <p class="task-description" id="taskDescription"></p>
+                            <form id="calculator-form" onsubmit="event.preventDefault();">
+                                <div class="form-inputs-container" id="formInputsContainer">
+                                    <!-- Dynamic Inputs -->
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary" id="calculateBtn">
+                                        Calculate
+                                    </button>
+                                </div>
+                            </form>
+                            
+                            <!-- Result Display -->
+                            <div class="result-container" id="resultContainer">
+                                <div class="result-placeholder">
+                                    <p>Enter inputs and click Calculate to see results.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Right: Logic & Code Viewer -->
+                    <section class="panel code-panel">
+                        <div class="panel-header">
+                            <h2 class="panel-title">
+                                <i class="fa-solid fa-terminal"></i>
+                                <span>JavaScript Code</span>
+                            </h2>
+                            <button class="btn-copy" id="copyCodeBtn" title="Copy code">
+                                <i class="fa-regular fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        <div class="panel-body code-body">
+                            <div class="code-viewer-container">
+                                <pre><code id="codeBlock" class="language-js"></code></pre>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification system for copy feedback -->
+    <div class="notification-toast" id="copyToast">
+        <i class="fa-solid fa-check-circle"></i>
+        <span>Code copied!</span>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
